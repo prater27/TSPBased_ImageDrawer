@@ -97,19 +97,48 @@ for(int i=0; i<points.size();i++){
 		}
 		horAux++;
 	}
+}//End of the segmentation loop
+
+
+//Here a vector of integers segmentTour is created. It controls in which order the image segments will be tour. This code tours the image as a "snake" from up to down and from left to right, so something like ununu...
+
+std::vector<int> segmentTour;
+int alternator=1;
+int position=1;
+segmentTour.push_back(position-1);
+int multiplicator=1;
+int counter=1;
+
+while(segmentTour.size()<vertSeg*horSeg){
+while(counter<vertSeg){
+	position=position+1*alternator;
+	segmentTour.push_back(position-1);
+	counter++;
 }
-//End of the segmentation loop
+alternator=alternator*(-1);
+counter=1;
+position=position + vertSeg;
+
+if (!(segmentTour.size()==vertSeg*horSeg)) {
+segmentTour.push_back(position-1);
+}
+
+}
+
+
+
 
 //Begin of the search of the pseudooptimal path
 //For each element in the vector image segmentation, which contains a list of points with an associated id, runs the christofides algorithm
 Graph G;
 vector<double> cost;
 
-			  std::cout << "Image Segmentation size: " << imageSegmentation.size() << std::endl;
-			std::cout << "\n " << std::endl;
+std::cout << "Image Segmentation size: " << imageSegmentation.size() << std::endl;
+std::cout << "\n " << std::endl;
 
-for(int k=0; k<imageSegmentation.size();k++){
-	
+for(int p=0; p<segmentTour.size(); p++){
+
+int k= segmentTour[p];
  // std::cout << "Por aqui imageSegmentation[k] size"  << imageSegmentation[k].size() << std::endl;
 
 	cost.clear();
